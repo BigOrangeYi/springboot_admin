@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="static/images/mr.jpg"/>
+    <title>网上创作平台管理系统</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/mmss.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/jquery-uis.css"/>
+    <link rel="stylesheet" href="css/jquery-uit.css"/>
+    <script src="js/tx.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+    <script  src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery-ui.js"></script>
+
+
+</head>
+<body>
+<header>
+    <div class="container-fluid navbar-fixed-top bg-primary">
+        <ul class="nav navbar-nav  left">
+            <li class="text-white h4">
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-leaf"></span>&nbsp;&nbsp;<b>网上创作平台管理系统</b>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav nav-pills right ">
+            <!-- <li class="bg-warning ">
+                 <a href="#"><span class="glyphicon glyphicon-tasks"></span><span class="badge">1</span></a>
+             </li>
+             <li class="bg-success">
+                 <a href="#"><span class="glyphicon glyphicon-envelope"></span><span class="badge">2</span></a>
+             </li>
+             <li class="bg-danger">
+                 <a href="#"><span class="glyphicon glyphicon-bell"></span></a>
+             </li>-->
+            <li class="bg-info dropdown">
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;<span>系统管理员</span><span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li class="text-center"><a href="login"><span class="text-primary">退出</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<section>
+    <div class="container-fluid" id="Index">
+        <div class="row ">
+            <!--左侧导航开始-->
+            <div class="col-xs-2 ">
+                <br/>
+                <div class="panel-group sidebar-menu" id="accordion" aria-multiselectable="true">
+                    <div class="panel panel-default menu-first menu-first-active">
+                        <a data-toggle="collapse" data-parent="#accordion" href="/adminIndex" aria-expanded="true"
+                           aria-controls="collapseOne">
+                            <i class="icon-home icon-large"></i> 主页
+                        </a>
+                    </div>
+                    <div class="panel panel-default menu-first">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true"
+                           aria-controls="collapseOne">
+                            <i class="icon-user-md icon-large"></i> 网站角色管理</a>
+                        </a>
+
+                        <div >
+                            <ul class="nav nav-list menu-second">
+                                <li><a  href="AUser.html" style="height: 50px;line-height: 50px;"><i class="icon-user"></i> 用户管理</a></li>
+                                <li><a class="menu-second-selected" href="AAuthor.html"style="height: 50px;line-height: 50px;"><i class="icon-user"></i> 作者管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel panel-default menu-first">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+                           aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="icon-book icon-large"></i> 网站作品管理</a>
+                        </a>
+                        <div >
+                            <ul class="nav nav-list menu-second">
+                                <li><a href="AWork.html"style="height: 50px;line-height: 50px;"><i class="icon-book"></i> 作品信息管理</a></li>
+                                <li><a href="AComment.html"style="height: 50px;line-height: 50px;"><i class="icon-book"></i>作品评论管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel panel-default menu-first">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree"
+                           aria-expanded="false" aria-controls="collapseThree">
+                            <i class="icon-book icon-large"></i> 网站日志管理</a>
+                        </a>
+
+                        <div >
+                            <ul class="nav nav-list menu-second">
+                                <li><a href="ALog.html"style="height: 50px;line-height: 50px;"><i class="icon-user"></i>用户日志管理</a></li>
+                                <li><a href="ALog.html"style="height: 50px;line-height: 50px;"><i class="icon-user"></i>作者日志管理</a></li>
+                                <li><a href="ALog.html"style="height: 50px;line-height: 50px;"><i class="icon-book"></i>作品日志管理</a></li>
+                                <li><a href="ALog.html"style="height: 50px;line-height: 50px;"><i class="icon-book"></i>章节日志管理</a></li>
+                                <li><a href="ALog.html"style="height: 50px;line-height: 50px;"><i class="icon-list"></i>评论日志管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--左侧导航结束-->
+            <!----------------------------------------------------------------------------------------------------->
+            <!--右侧内容开始-->
+            <div class="col-xs-10" id="app">
+                <br/>
+                <ol class="breadcrumb">
+                    <li><a href="/adminIndex"><span class="glyphicon glyphicon-home"></span>&nbsp;后台首页</a></li>
+                    <li class="active">网站角色管理 - 作者管理</li>
+                </ol>
+                <div class="input-group line left">
+                    <input type="text"  v-model="SearchText" class="form-control" placeholder="输入关键字搜索" aria-describedby="basic-addon2">
+                </div>
+
+                <a href="#" class=" btn btn-primary " @click="Search"><span class="glyphicon glyphicon-search"></span></a>
+
+                <table v-if="SearchResult!=null&&SearchResult!=''" class="table table-bordered table-striped text-center bg-info">
+                    <tr><td colspan="8" @click="SearchResult=''">收起结果</td></tr>
+
+                    <tr class="info">
+                        <th class="text-center">作者ID</th>
+                        <th class="text-center">作者手机号</th>
+                        <th class="text-center">作者笔名</th>
+                        <th class="text-center" colspan="2">操作</th>
+                    </tr>
+
+                    <tr v-for="(Result,ResultNum) in SearchResult">
+                        <td contenteditable="true" @blur="Result.authorno=$event.target.innerText">{{Result.authorno}}</td>
+                        <td contenteditable="true" @blur="Result.phone=$event.target.innerText">{{Result.phone}}</td>
+                        <td contenteditable="true" @blur="Result.authorname=$event.target.innerText">{{Result.authorname}}</td>
+                        <td>
+                            <a href="#" class="btn btn-primary btn-sm" @click="AUpdateAuthors(Result.authorno,Result.phone,Result.authorname)">保存修改</a>
+                            <a href="#" class="btn btn-primary btn-sm" @click="ADeleteAuthors(Result.authorno)">确定删除</a>
+                        </td>
+
+                    </tr>
+                </table>
+                <br>
+                <table class="table table-bordered table-striped text-center bg-info">
+                    <thead >
+                    <tr class="info">
+                        <th class="text-center">作者ID</th>
+                        <th class="text-center">作者手机号</th>
+                        <th class="text-center">作者笔名</th>
+                        <th class="text-center" colspan="2">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(Author,AuthorNum) in Authors">
+                        <td >{{Author.authorno}}</td>
+                        <td contenteditable="true" @blur="Author.phone=$event.target.innerText">{{Author.phone}}</td>
+                        <td contenteditable="true" @blur="Author.authorname=$event.target.innerText">{{Author.authorname}}</td>
+                        <td>
+                            <a href="#" class="btn btn-primary btn-sm" @click="ADeleteAuthors(Author.authorno)">确定删除</a>
+                            <a href="#" class="btn btn-primary btn-sm" @click="AUpdateAuthors(Author.authorno,Author.phone,Author.authorname)">保存修改</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <ul class="left">
+                    <br>
+                    <li class="input-group line">
+                        <input type="text" style="width:80px;" v-model="mypagenum" class="form-control" placeholder="跳转页" >
+                        <a href="#"style="height:35px;" class="btn btn-primary btn-sm" @click="todo(mypagenum)">确定跳转</a>
+                    </li>
+
+                </ul>
+
+                <ul class="pagination right">
+                    <li ><a href="#" ><span aria-hidden="true">第{{VPageNum}}页</span></a></li>
+                    <li ><a href="#" @click="Pre" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                    <li ><a href="#"  @click="todo(1)">1 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#"  @click="todo(2)">2</a></li>
+                    <li><a href="#"  @click="todo(3)">3</a></li>
+                    <li><a href="#"  @click="todo(4)">4</a></li>
+                    <li><a href="#" @click="Next" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                </ul>
+                <!----------------------------------------------------------    ------------------------------------------->
+            </div>
+            <!--右侧内容结束-->
+        </div>
+
+    </div>
+</section>
+
+<script>
+    var PageNum=1;
+    var PageSize=6;
+    $(function () {
+        vindex.ASelectAuthors(PageNum,PageSize);
+    });
+    var vindex = new Vue({
+        el: '#Index',
+        data: {
+            SearchText:'',
+            SearchResult:[],
+            VPageNum:PageNum,
+            Authors:[],
+            mypagenum:''
+        },
+        methods:{
+            Search:function(){
+                if (vindex.SearchText != null && vindex.SearchText != '') {
+                    vindex.SearchResult=[];
+                    axios.post('/ASelectOneAuthors.do', {
+                        phone:vindex.SearchText,
+                        authorname:vindex.SearchText
+                    }).then(function (response) {
+                        var temp = response.data;
+                        console.log(temp);
+                        for (var i = 0; i < temp.length; i++)
+                            vindex.SearchResult.push({
+                                authorno: temp[i].authorno,
+                                phone: temp[i].phone,
+                                authorname: temp[i].authorname
+                            })
+                    })
+                }
+            },
+            Pre:function(){
+                if (PageNum > 1)
+                {
+                    vindex.VPageNum=--PageNum;
+                    vindex.ASelectAuthors(PageNum,PageSize);
+                }
+            },
+            Next:function(){
+                if (vindex.Authors.length == 6)
+                {
+                    vindex.VPageNum=++PageNum;
+                    vindex.ASelectAuthors(PageNum,PageSize);
+                }
+            },
+            todo:function(Num){
+                if (Num > 0)
+                {
+                    PageNum=Num;
+                    vindex.VPageNum=PageNum;
+                    vindex.ASelectAuthors(PageNum,PageSize);
+                }
+            },
+            AUpdateAuthors:function(authorno,phone,authorname){
+                axios.post('/AUpdateAuthors.do', {
+                    authorno:authorno,
+                    phone:phone,
+                    authorname:authorname,
+                }).then(function (response) {
+                    var temp = response.data;console.log(temp);
+                    if (temp.toString().length>0){
+                        alert("修改成功");
+                        vindex.ASelectAuthors(PageNum,PageSize);
+                    }
+                    else alert("修改失败")
+                });
+
+            },
+            ADeleteAuthors:function(authorno){
+                axios.post('/ADeleteAuthors.do', {authorno:authorno}).then(function (response) {
+                    var temp = response.data;console.log(temp);
+                    if (temp==1){
+                        alert("删除成功");
+                        vindex.ASelectAuthors(PageNum,PageSize);
+                    }
+                    else alert("删除失败")
+                });
+            },
+            ASelectAuthors:function (PageNum,PageSize) {
+                vindex.Authors=[];
+                axios.post('/ASelectAuthors.do', {
+                    PageNum:PageNum,
+                    PageSize:PageSize
+                }).then(function (response) {
+                    var temp = response.data;console.log(temp);
+                    for (var i = 0; i < temp.length; i++)
+                        vindex.Authors.push({
+                            authorno: temp[i].authorno,
+                            phone: temp[i].phone,
+                            authorname: temp[i].authorname,
+                        });
+                })
+            }
+        }
+    });
+</script>
+<script src="js/superclick.js"/>
+</body>
+</html>
